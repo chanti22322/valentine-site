@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine?</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom, #ffd1e2, #ff9acb);
+    font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Floating hearts */
+#hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 15vh;
+}
+
+h1 {
+    font-size: 64px;
+    color: #b00060;
+    margin-bottom: 5px;
+}
+
+h1 span {
+    color: #ff0066;
+}
+
+.sub {
+    color: #b00060;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+/* YES BUTTON */
+#yesBtn {
+    background: #ff0066;
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    font-size: 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(255,0,102,0.4);
+    cursor: pointer;
+}
+
+/* FIXED SMALL NO BUTTON (PILL SHAPE) */
+#noBtn {
+    position: fixed;      /* IMPORTANT FIX */
+    top: 25px;            /* keeps it below the browser bar */
+    right: 40px;
+    background: white;
+    color: #ff0066;
+    border: 2px solid #ff0066;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    z-index: 999;
+}
+
+.hint {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #b00060;
+}
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="container">
+    <h1>Will you be my <span>Valentine?</span></h1>
+    <p class="sub">Choose wisely… 💕</p>
+
+    <button id="yesBtn" onclick="goYes()">Yes! ✨</button>
+
+    <p class="hint">Hint: The "No" button is a bit shy… 😅</p>
+</div>
+
+<button id="noBtn">No 😶</button>
+
+<script>
+function goYes() {
+    window.location.href = "yes.html";
+}
+
+// Make No button run away
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// Floating hearts
+const heartsContainer = document.getElementById("hearts");
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = ["💖","💕","💗","💘","❤️"][Math.floor(Math.random()*5)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random()*3) + "s";
+    heart.style.fontSize = (18 + Math.random()*16) + "px";
+
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}
+
+setInterval(createHeart, 700);
+</script>
+
+</body>
+</html>
